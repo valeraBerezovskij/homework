@@ -10,4 +10,5 @@ public:
 int main()
 {
 	A a;
+	std::cout << "Second commit." << std::endl;
 }
