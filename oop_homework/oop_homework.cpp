@@ -25,7 +25,7 @@ int main() {
     srand(time(NULL));
 
     Fraction frac;
-    frac.setRand();
+    frac.Input();
     frac.print();
 
     Fraction frac2;
