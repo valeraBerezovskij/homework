@@ -11,7 +11,7 @@ public:
         denominator = y;
     }
 
-    void setRand() {
+    void Input() {
         numerator = rand() % 100;
         denominator = rand() % 100 + 1;
     }
