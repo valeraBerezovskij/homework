@@ -1,34 +1,37 @@
-#include <iostream> 
+#include <iostream>
 using namespace std;
 
 class Fraction {
 private:
-    int numerator = 0;
-    int denominator = 1;
+	int numerator = 0;
+	unsigned denominator = 1;
 public:
-    void Input(int x, unsigned y) {
-        numerator = x;
-        denominator = y;
-    }
+	void setNumerator(int x) { numerator = x; }
+	void setDenominator(unsigned x) { denominator = x; }
 
-    void Input() {
-        numerator = rand() % 100;
-        denominator = rand() % 100 + 1;
-    }
+	int        getNumerator() const { return numerator; }
+	unsigned getDenominator() const { return denominator; }
 
-    void print() {
-        cout << numerator << '/' << denominator << endl;
-    }
+	void setRandom() {
+		numerator = rand() % 10;
+		denominator = rand() % 10 + 1;
+	}
+
+	void print() {
+		cout << numerator << '/' << denominator << endl;
+	}
 };
 
 int main() {
-    srand(time(NULL));
+	srand(time(NULL));
 
-    Fraction frac;
-    frac.Input();
-    frac.print();
+	Fraction frac;
+	frac.setDenominator(5);
+	frac.setNumerator(3);
+	Fraction frac1;
+	frac1.setDenominator(3);
+	frac1.setNumerator(4);
 
-    Fraction frac2;
-    frac2.Input(2, 3);
-    frac2.print();
+	frac.print();
+	frac1.print();
 }
