@@ -3,9 +3,15 @@ using namespace std;
 
 class Fraction {
 private:
-	int numerator = 0;
-	unsigned denominator = 1;
+	int numerator;
+	unsigned denominator;
 public:
+
+	Fraction(int n, unsigned d) : numerator(n), denominator(d) { }
+	Fraction() {
+		numerator = 0;  denominator = 1;
+	};
+
 	void setNumerator(int x) { numerator = x; }
 	void setDenominator(unsigned x) { denominator = x; }
 
