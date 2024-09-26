@@ -1,43 +1,80 @@
 #include <iostream>
 using namespace std;
 
-class Fraction {
+class Car {
 private:
-	int numerator;
-	unsigned denominator;
+	char* model;
+	char* country;
+	int year;
+	double price;
 public:
-
-	Fraction(int n, unsigned d) : numerator(n), denominator(d) { }
-	Fraction() {
-		numerator = 0;  denominator = 1;
-	};
-
-	void setNumerator(int x) { numerator = x; }
-	void setDenominator(unsigned x) { denominator = x; }
-
-	int        getNumerator() const { return numerator; }
-	unsigned getDenominator() const { return denominator; }
-
-	void setRandom() {
-		numerator = rand() % 10;
-		denominator = rand() % 10 + 1;
+	Car(const char* m, const char* c, const int y, const double p) {
+		model   = new char[strlen(m) + 1];
+		country = new char[strlen(c) + 1];
+		strcpy_s(model, strlen(m) + 1, m);
+		strcpy_s(country, strlen(c) + 1, c);
+		year = y, price = p;
 	}
 
-	void print() {
-		cout << numerator << '/' << denominator << endl;
+	Car() { 
+		model = nullptr, country = nullptr;
+		year = 0, price = 0;
+	}
+	
+	char*  GetModel()   const { return model; }
+	char*  GetCountry() const { return country; }
+	int    GetYear()    const { return year; }
+	double GetPrice()   const { return price; }
+
+	void SetModel(const char* m) {
+		model = new char[strlen(m) + 1];
+		strcpy_s(model, strlen(m) + 1, m);
+	}
+	void SetCountry(const char* c) {
+		country = new char[strlen(c) + 1];
+		strcpy_s(country, strlen(c) + 1, c);
+	}
+	void SetYear(const int y)     { year = y; }
+	void SetPrice(const double p) { price = p; }
+
+	void Input() {
+		string m, c;
+		int y;
+		double p;
+
+		cout << "Enter model name: "; cin >> m;
+		SetModel(m.c_str());
+		cout << "Enter country name: "; cin >> c;
+		SetCountry(c.c_str());
+		cout << "Enter year: "; cin >> y;
+		year = y;
+		cout << "Enter price: "; cin >> p;
+		price = p;
+	}
+
+	void Print() {
+		cout << "Model: ";
+		for (size_t i = 0; i < strlen(model); ++i) {
+			cout << model[i];
+		}
+		cout << "\nCountry: ";
+		for (size_t i = 0; i < strlen(country); ++i) {
+			cout << country[i];
+		}
+		cout << "\nYear: " << year;
+		cout << "\nPrice: " << price;
+	}
+
+	~Car() {
+		delete[] model;
+		delete[] country;
 	}
 };
 
 int main() {
-	srand(time(NULL));
-
-	Fraction frac;
-	frac.setDenominator(5);
-	frac.setNumerator(3);
-	Fraction frac1;
-	frac1.setDenominator(3);
-	frac1.setNumerator(4);
-
-	frac.print();
-	frac1.print();
+	Car car("Tayota", "USA", 2008, 1'000'000);
+	car.Print();
+	cout << "\n\n";
+	car.SetModel("Ferrari");
+	car.Print();
 }
