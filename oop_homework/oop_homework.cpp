@@ -1,80 +1,132 @@
-#include <iostream>
+#include<iostream>
+#include <cstring>
 using namespace std;
 
-class Car {
+char* initString(char*& str);
+
+class Laptop {
 private:
 	char* model;
-	char* country;
-	int year;
+	char* cpu_name;
+	char* video_card;
+
+	int warantee;
 	double price;
 public:
-	Car(const char* m, const char* c, const int y, const double p) {
-		model   = new char[strlen(m) + 1];
-		country = new char[strlen(c) + 1];
-		strcpy_s(model, strlen(m) + 1, m);
-		strcpy_s(country, strlen(c) + 1, c);
-		year = y, price = p;
-	}
+	Laptop(const char* model_, const char* cpu_name_, const char* video_card_, const int warantee, const double price);
+	Laptop();
+	~Laptop();
 
-	Car() { 
-		model = nullptr, country = nullptr;
-		year = 0, price = 0;
-	}
-	
-	char*  GetModel()   const { return model; }
-	char*  GetCountry() const { return country; }
-	int    GetYear()    const { return year; }
-	double GetPrice()   const { return price; }
+	void input();
+	void print();
 
-	void SetModel(const char* m) {
-		model = new char[strlen(m) + 1];
-		strcpy_s(model, strlen(m) + 1, m);
-	}
-	void SetCountry(const char* c) {
-		country = new char[strlen(c) + 1];
-		strcpy_s(country, strlen(c) + 1, c);
-	}
-	void SetYear(const int y)     { year = y; }
-	void SetPrice(const double p) { price = p; }
+	//Getters
+	char* GetModel() const;
+	char* GetCPU() const;
+	char* GetVideoCard() const;
+	int GetWarantee() const;
+	double GetPrice() const;
 
-	void Input() {
-		string m, c;
-		int y;
-		double p;
-
-		cout << "Enter model name: "; cin >> m;
-		SetModel(m.c_str());
-		cout << "Enter country name: "; cin >> c;
-		SetCountry(c.c_str());
-		cout << "Enter year: "; cin >> y;
-		year = y;
-		cout << "Enter price: "; cin >> p;
-		price = p;
-	}
-
-	void Print() {
-		cout << "Model: ";
-		for (size_t i = 0; i < strlen(model); ++i) {
-			cout << model[i];
-		}
-		cout << "\nCountry: ";
-		for (size_t i = 0; i < strlen(country); ++i) {
-			cout << country[i];
-		}
-		cout << "\nYear: " << year;
-		cout << "\nPrice: " << price;
-	}
-
-	~Car() {
-		delete[] model;
-		delete[] country;
-	}
+	//Setters
+	void SetModel(const char* model_);
+	void SetCPU(const char* cpu_);
+	void SetVideoCard(const char* video_card);
+	void SetWarantee(int warantee_);
+	void SetPrice(double price_);
 };
 
-int main() {
-	Car car("Tayota", "USA", 2008, 1'000'000);
-	car.Print();
-	cout << "\n\n";
-	car.SetModel("Ferrari");
-	car.Print();
+
+Laptop::Laptop(const char* model_, const char* cpu_name_, const char* video_card_, const int warantee_, const double price_) {
+	SetModel(model_);
+	SetCPU(cpu_name_);
+	SetVideoCard(video_card_);
+	warantee   = warantee_;
+	price      = price_;
 }
+
+Laptop::Laptop() {
+	model = nullptr; cpu_name = nullptr; video_card = nullptr;
+	warantee = 0; price = 0;
+}
+
+Laptop::~Laptop() {
+	delete[] model;
+	delete[] cpu_name;
+	delete[] video_card;
+}
+
+void Laptop::input() {
+	cout << "Enter model of laptop: ";      initString(model);
+	cout << "Enter CPU name: ";             initString(cpu_name);
+	cout << "Enter video card: ";           initString(video_card);
+	cout << "Enter duration of warranty: "; cin >> warantee;
+	cout << "Enter price: ";                cin >> price;
+}
+
+void Laptop::print() {
+	cout << "Model: "                << GetModel()     << '\n';
+	cout << "CPU: "                  << GetCPU()       << '\n';
+	cout << "Video card: "           << GetVideoCard() << '\n';
+	cout << "Duration of warranty: " << GetWarantee()  << '\n';
+	cout << "Price: "                << GetPrice();
+}
+
+//Getters
+char* Laptop::GetCPU()       const { return cpu_name; }
+char* Laptop::GetModel()     const { return model; }
+char* Laptop::GetVideoCard() const { return video_card; }
+int   Laptop::GetWarantee()  const { return warantee; }
+double Laptop::GetPrice()    const { return price; }
+
+//Setters
+void Laptop::SetModel(const char* model_) {
+	if(model != nullptr){ delete[] model; }
+	model = new char[strlen(model_) + 1];
+	strcpy_s(model, strlen(model_) + 1, model_);
+}
+
+void Laptop::SetCPU(const char* cpu_) {
+	if (cpu_name != nullptr) { delete[] cpu_name; }
+	cpu_name = new char[strlen(cpu_) + 1];
+	strcpy_s(cpu_name, strlen(cpu_) + 1, cpu_);
+}
+
+void Laptop::SetVideoCard(const char* video_card_) {
+	if (video_card != nullptr) { delete[] video_card; }
+	video_card = new char[strlen(video_card_) + 1];
+	strcpy_s(video_card, strlen(video_card_) + 1, video_card_);
+}
+
+void Laptop::SetWarantee(int warantee_) { warantee = warantee_; }
+void Laptop::SetPrice(double price_)    { price = price_; }
+
+char* initString(char*& str) {
+	char* temp;
+	int size = 10;
+	str = new char[size];
+	int i = 0; char ch;
+
+	while (cin.get(ch)) {
+		if (ch == '\n') { break; }
+
+		if (i + 1 == size) {
+			size += 4;
+			temp = new char[size];
+			strcpy_s(temp, size, str);
+			delete[] str;
+			str = temp;
+		}
+		str[i] = ch; 
+		++i;
+	}
+	str[i] = '\0';
+	return str;
+}
+
+int main() 
+{
+	Laptop omen("omen", "Intel", "rtx", 360, 1000);
+	omen.print();
+}
+
+
