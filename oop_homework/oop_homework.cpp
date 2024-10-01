@@ -2,7 +2,7 @@
 #include <cstring>
 using namespace std;
 
-char* initString(char*& str);
+void initString(char*& str);
 
 class Laptop {
 private:
@@ -100,10 +100,13 @@ void Laptop::SetVideoCard(const char* video_card_) {
 void Laptop::SetWarantee(int warantee_) { warantee = warantee_; }
 void Laptop::SetPrice(double price_)    { price = price_; }
 
-char* initString(char*& str) {
+void initString(char*& str) {
+	if (str != nullptr) {
+		delete[] str;
+	}
 	char* temp;
 	int size = 10;
-	str = new char[size];
+	str = new char[size + 1];
 	int i = 0; char ch;
 
 	while (cin.get(ch)) {
@@ -111,21 +114,20 @@ char* initString(char*& str) {
 
 		if (i + 1 == size) {
 			size += 4;
-			temp = new char[size];
-			strcpy_s(temp, size, str);
+			temp = new char[size + 1];
+			strncpy_s(temp, size + 1, str, i);
 			delete[] str;
 			str = temp;
 		}
 		str[i] = ch; 
 		++i;
 	}
-	str[i] = '\0';
-	return str;
 }
 
 int main() 
 {
 	Laptop omen("omen", "Intel", "rtx", 360, 1000);
+	omen.input();
 	omen.print();
 }
 
