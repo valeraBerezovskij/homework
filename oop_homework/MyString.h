@@ -27,6 +27,8 @@ public:
 	void  setString(const char* string);
 	//    setLenght() may be unsafe
 
+	//static variables
+	static unsigned string_counter;
 private:
 	char* str;
 	int lenght;

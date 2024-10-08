@@ -22,4 +22,11 @@ int main()
 
 	a.MyStrcpy(b);
 	a.output();
+	
+	{
+		MyString c;
+		MyString d(c);
+		cout << MyString::string_counter;
+	}
+	cout << MyString::string_counter;
 }

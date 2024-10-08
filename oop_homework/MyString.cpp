@@ -1,16 +1,19 @@
 #include "MyString.h"
 
 void initString(char*& str, int& size);
+unsigned MyString::string_counter = 0;
 
 MyString::MyString() {
 	lenght = 80;
 	str = new char[lenght];
+	++string_counter;
 }
 
 MyString::MyString(const char* string) {
 	lenght = strlen(string);
 	str = new char[lenght + 1];
 	strcpy_s(str, lenght + 1, string);
+	++string_counter;
 }
 
 MyString::MyString(size_t n, char c) {
@@ -19,16 +22,23 @@ MyString::MyString(size_t n, char c) {
 	for (int i = 0; i < n; i++)
 		str[i] = c;
 	str[n] = '\0';
+	++string_counter;
 }
 
 MyString::MyString(const MyString& other) {
 	lenght = other.lenght;
 	str = new char[lenght + 1];
-	strcpy_s(str, lenght + 1, other.str);
+	if(!other.str){
+		strcpy_s(str, lenght + 1, other.str);
+	}
+
+	++string_counter;
+
 }
 
 MyString::~MyString() {
 	delete[] str;
+	--string_counter;
 }
 
 void MyString::input() {
@@ -76,7 +86,7 @@ void MyString::MyStrCat(const MyString& other) {
 
 void MyString::MyDelChr(const char c) {
 	int index = MyChr(c);
-	if(lenght != 0 && index != -1){
+	if (lenght != 0 && index != -1) {
 		for (int i = index; i < lenght; ++i)
 			str[i] = str[i + 1];
 		lenght--;
@@ -86,7 +96,7 @@ void MyString::MyDelChr(const char c) {
 int MyString::MyStrCmp(const MyString& other) {
 	if (lenght < other.lenght) return -1;
 	if (lenght > other.lenght) return  1;
-							   return  0;
+	return  0;
 }
 
 void MyString::MyStrcpy(const MyString& other)
