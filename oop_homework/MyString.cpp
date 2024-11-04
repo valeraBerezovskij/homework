@@ -1,6 +1,5 @@
 #include "MyString.h"
 
-void initString(char*& str, int& size);
 unsigned MyString::string_counter = 0;
 
 MyString::MyString() {
@@ -26,14 +25,14 @@ MyString::MyString(size_t n, char c) {
 }
 
 MyString::MyString(const MyString& other) {
-	lenght = other.lenght;
-	str = new char[lenght + 1];
-	if(!other.str){
+	if (other.str) {
+		str = new char[lenght + 1];
 		strcpy_s(str, lenght + 1, other.str);
 	}
-
+	else {
+		str = nullptr;
+	}
 	++string_counter;
-
 }
 
 MyString::~MyString() {
@@ -117,27 +116,34 @@ void MyString::setString(const char* string) {
 	strcpy_s(str, lenght + 1, string);
 }
 
+char MyString::operator[](int index) {
+	if (index >= 0 && index < lenght)
+		return str[index];
+	return -1;
+}
+
 void initString(char*& str, int& size) {
 	if (str != nullptr) {
 		delete[] str;
 	}
-	char* temp;
-	int lenght = 10;
-	str = new char[lenght + 1];
+
+	int capacity = 10;
+	str = new char[capacity + 1];
 	int i = 0; char ch;
 
 	while (std::cin.get(ch)) {
-		if (ch == '\n') { break; }
+		if (ch == '\n') break;
 
-		if (i + 1 == lenght) {
-			lenght += 4;
-			temp = new char[lenght + 1];
-			strncpy_s(temp, lenght, str, i);
+		if (i + 1 == capacity) {
+			capacity += 10;
+			char* temp = new char[capacity + 1];
+			strncpy_s(temp, capacity + 1, str, i);
 			delete[] str;
 			str = temp;
 		}
-		str[i] = ch;
-		++i;
+
+		str[i++] = ch;
 	}
-	size = lenght;
+	str[i] = '\0';
+	size = i;
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include<iostream>
 
+void initString(char*& str, int& size);
+
 class MyString {
 public:
 	//constructors
@@ -22,11 +24,12 @@ public:
 
 	//Getters and Setters	
 	//(these methods anyway are inline, so i didn`t move it out of the class)
-	char* getString() { return str; }
+	const char* getString() const { return str; }
 	int   MyStrLen() { return lenght; }
 	void  setString(const char* string);
 	//    setLenght() may be unsafe
 
+	char operator[](int index);
 	//static variables
 	static unsigned string_counter;
 private:
